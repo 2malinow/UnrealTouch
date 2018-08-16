@@ -33,8 +33,6 @@ void AMySpectatorPawn::Tick(float DeltaTime)
 	playerController->GetInputTouchState(ETouchIndex::Touch2, finger2.newTouchLoc.X, finger2.newTouchLoc.Y, bIsFinger2CurrentlyPressed);
 	if (bIsFinger1CurrentlyPressed&&!bIsFinger2CurrentlyPressed)
 	{
-		//FVector deltaOffset = FVector(deltaTouchLoc.Y, deltaTouchLoc.X, 0.0f);
-
 		if (GetWorld() != nullptr)
 		{
 			UGameViewportClient* ViewportClient = GetWorld()->GetGameViewport();
@@ -47,11 +45,13 @@ void AMySpectatorPawn::Tick(float DeltaTime)
 				if (FMath::Abs(ScaledDelta.X) >= 4.0 / ScreenSize.X)
 				{
 					float Value = ScaledDelta.X * BaseTurnRate;
+
 					AddControllerYawInput(Value);
 				}
 				if (FMath::Abs(ScaledDelta.Y) >= 4.0 / ScreenSize.Y)
 				{
 					float Value = ScaledDelta.Y * BaseTurnRate;
+
 					AddControllerPitchInput(Value);
 				}
 			}
@@ -113,7 +113,7 @@ void AMySpectatorPawn::Tick(float DeltaTime)
 				FVector2D ScreenSize;
 				ViewportClient->GetViewportSize(ScreenSize);
 				FVector2D scaledDeltaMulti = deltaMultiTouchLoc / ScreenSize;
-				float deltaAbsolute = sqrt(deltaMultiTouchLoc.X*deltaMultiTouchLoc.X + deltaMultiTouchLoc.Y + deltaMultiTouchLoc.Y);
+				float deltaAbsolute = sqrt(deltaMultiTouchLoc.X*deltaMultiTouchLoc.X + deltaMultiTouchLoc.Y*deltaMultiTouchLoc.Y);
 				float priordeltaAbsolute = sqrt(PriorDelta.X*PriorDelta.X + PriorDelta.Y*PriorDelta.Y);
 				if (deltaAbsolute > priordeltaAbsolute)
 				{
@@ -131,6 +131,8 @@ void AMySpectatorPawn::Tick(float DeltaTime)
 
 			}
 		}
+		finger1.preTouchLoc = finger1.newTouchLoc;
+		finger2.preTouchLoc = finger2.newTouchLoc;
 	}
 }
 
