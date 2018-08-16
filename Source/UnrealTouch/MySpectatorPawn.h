@@ -31,7 +31,30 @@ public:
 
 	bool EnableTouchscreenMovement(class UInputComponent* PlayerInputComponent);
 
+	FVector2D preTouchLoc;
+	FVector2D newTouchLoc;
+	APlayerController* playerController;
+
 	struct Finger1
+	{
+		Finger1() {}
+		FVector2D preTouchLoc;
+		FVector2D newTouchLoc;
+	};
+
+	struct Finger2
+	{
+		Finger2() {}
+		FVector2D preTouchLoc;
+		FVector2D newTouchLoc;
+	};
+	Finger1 finger1;
+	Finger2 finger2;
+	FVector2D PriorDelta = FVector2D::ZeroVector; 
+
+
+	void OnTouchBegin(ETouchIndex::Type touchType, FVector newTouchLocation);
+	/*struct Finger1
 	{
 		Finger1() { bIsPressed = false; Location = FVector::ZeroVector; bool bSpecial = false; }
 		bool bIsPressed;
@@ -57,7 +80,7 @@ public:
 	void EndTouch(const ETouchIndex::Type FingerIndex, const FVector Location);
 
 	void TouchUpdate(const ETouchIndex::Type FingerIndex, const FVector Location);
-
+*/
 };
 
 
